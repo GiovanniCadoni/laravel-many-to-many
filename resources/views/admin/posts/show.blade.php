@@ -19,6 +19,12 @@
         <p>
           Categoria: {{ $post->type ? $post->type->nome : 'non assegnata' }}
         </p>
+        <p>
+          Technology:
+          @foreach ($post->technologies as $technology)
+              <span class="badge" style="background-color: {{ $technology->esa_colore }}" >{{ $technology->nome }}</span>
+          @endforeach
+        </p>
         <p class="card-text fw-bold mb-0">
           Contenuto:
         </p>
