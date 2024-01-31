@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+
 
 class PostController extends Controller
 {
@@ -32,7 +34,8 @@ class PostController extends Controller
     public function create()
     {
         $types = Type::all(); 
-        return view('admin.posts.create', compact('types'));
+        $technologies = Technology::all();
+        return view('admin.posts.create', compact('types', 'technologies'));
     }
 
     /**
@@ -54,6 +57,10 @@ class PostController extends Controller
             $post->cover_image = $path;
         }
         $post->save();
+
+        if($request->has('technologies')) {
+            $post->technologies()->attach($request->technologies);
+        }
 
         return redirect()->route('admin.posts.show', ['post' => $post->id]);
     }
@@ -80,7 +87,8 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $types = Type::all();
-        return view('admin.posts.edit', compact('post', 'types'));
+        $technologies = Technology::all();
+        return view('admin.posts.edit', compact('post', 'types', 'technologies'));
     }
 
     /**
@@ -107,6 +115,12 @@ class PostController extends Controller
 
         }
         $post_to_update->save();
+
+        if($request->has('technologies')) {
+            $post_to_update->technologies()->sync($request->technologies);
+        } else {
+            $post_to_update->technologies()->sync([]);
+        }
 
         return redirect()->route('admin.posts.show', ['post' => $post_to_update->id]);
     }

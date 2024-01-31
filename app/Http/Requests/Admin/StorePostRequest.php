@@ -29,6 +29,7 @@ class StorePostRequest extends FormRequest
             'slug' => 'nullable',
             'cover_image' => ['nullable', 'image', 'max:512'],
             'type_id' => ['nullable', 'numeric', 'exists:types,id'],
+            'technologies' => ['exists:technologies,id'],
         ];
     }
 
@@ -41,6 +42,7 @@ class StorePostRequest extends FormRequest
             'cover_image.image' => 'Il contenuto inserito non è supportato',
             'cover_image.max' => 'Il contenuto inserito è troppo grande',
             'type_id.exists' => 'La categoria inserita non esiste più',
+            'technologies.exists' => 'La/e tecnologia/e selezionata/e non esiste/ono',
         ];
     }
 }
