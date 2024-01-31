@@ -39,7 +39,7 @@
                         Seleziona la tecnologia:
                         @foreach ($technologies as $technology)
                             <div class="form-check">
-                                <input @checked( $error->any() ? in_array($technology->id, old('technologies', [])) : $post->technologies->contains($technology)) type="checkbox" id="technology-{{ $technology->id }}" value="{{ $technology->id }}" name="technologies[]">
+                                <input @checked( $errors->any() ? in_array($technology->id, old('technologies', [])) : $post->technologies->contains($technology)) type="checkbox" id="technology-{{ $technology->id }}" value="{{ $technology->id }}" name="technologies[]">
                                 <label for="technology-{{ $technology->id }}">
                                     {{ $technology->nome }}
                                 </label>
